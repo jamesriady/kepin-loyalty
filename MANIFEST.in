@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include kepin_loyalty *.css
+recursive-include kepin_loyalty *.csv
+recursive-include kepin_loyalty *.html
+recursive-include kepin_loyalty *.ico
+recursive-include kepin_loyalty *.js
+recursive-include kepin_loyalty *.json
+recursive-include kepin_loyalty *.md
+recursive-include kepin_loyalty *.png
+recursive-include kepin_loyalty *.py
+recursive-include kepin_loyalty *.svg
+recursive-include kepin_loyalty *.txt
+recursive-exclude kepin_loyalty *.pyc
