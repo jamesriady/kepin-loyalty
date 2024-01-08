@@ -79,13 +79,12 @@ app_license = "\'kepin_loyalty\' created at /home/frappe/frappe-bench/apps/kepin
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-#	}
-# }
+doc_events = {
+	"Sales Invoice": {
+		"on_submit": "kepin_loyalty.accounts.doctype.sales_invoice.sales_invoice.on_claim_loyalty_point",
+		"on_cancel": "kepin_loyalty.accounts.doctype.sales_invoice.sales_invoice.on_cancel_claim_loyalty_point"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
