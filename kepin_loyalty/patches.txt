@@ -1,0 +1,2 @@
+kepin_loyalty.patches.v1_0.add_get_point_on_redeem_in_loyalty_program
+kepin_loyalty.patches.v1_0.add_previous_loyalty_points_in_loyalty_point_entry
