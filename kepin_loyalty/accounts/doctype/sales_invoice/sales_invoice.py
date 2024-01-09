@@ -51,13 +51,11 @@ def make_loyalty_point_entries_on_return(doc, against_doc):
         expiry_date=against_doc.posting_date, include_expired_entry=True)
     if lp_details and getdate(lp_details.from_date) <= getdate(against_doc.posting_date) and \
         (not lp_details.to_date or getdate(lp_details.to_date) >= getdate(against_doc.posting_date)):
-
         collection_factor = lp_details.collection_factor if lp_details.collection_factor else 1.0
         points_before_return_earned = cint(current_amount/collection_factor)
         points_after_return_earned = cint(eligible_amount/collection_factor)
 
-        return_points_earned = points_after_return_earned - points_before_return_earned, # loyalty_points should be negative
-
+        return_points_earned = points_after_return_earned - points_before_return_earned # loyalty_points should be negative
         if not lp_details.get_point_on_redeem:
             if against_doc.redeem_loyalty_points and against_doc.loyalty_points:
                 points_before_return_earned = 0
