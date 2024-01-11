@@ -19,12 +19,15 @@ def on_claim_loyalty_point(doc, method=None):
         against_si_doc.delete_loyalty_point_entry()
         make_loyalty_point_entries_on_return(doc, against_si_doc)
 
+        if against_si_doc.redeem_loyalty_points and against_si_doc.loyalty_points:
+            # re-insert points that have been redeemed
+            against_si_doc.apply_loyalty_points()
+
         against_si_remaining_points = get_remaining_points(against_si_doc, filters={'creation': ['<', against_si_doc.creation]})
         set_previous_point(against_si_doc, against_si_remaining_points)
 
         doc_remaining_points = get_remaining_points(doc)
         set_previous_point(doc, doc_remaining_points)
-
 
 def on_cancel_claim_loyalty_point(doc, method=None):
     if doc.is_return and doc.return_against and doc.loyalty_program:
@@ -36,8 +39,11 @@ def on_cancel_claim_loyalty_point(doc, method=None):
         lp_details = get_loyalty_program_details_with_points(against_si_doc.customer, company=against_si_doc.company,
 				loyalty_program=against_si_doc.loyalty_program, include_expired_entry=True)
         # reset loyalty points only if the get point on redeem setting is False and the user redeems the point 
-        if not lp_details.get_point_on_redeem and against_si_doc.redeem_loyalty_points and against_si_doc.loyalty_points:
-            reset_earned_loyalty_points(against_si_doc)
+        if against_si_doc.redeem_loyalty_points and against_si_doc.loyalty_points:
+            # re-insert points that have been redeemed
+            against_si_doc.apply_loyalty_points()
+            if not lp_details.get_point_on_redeem:
+                reset_earned_loyalty_points(against_si_doc)
 
         remaining_points = get_remaining_points(against_si_doc, filters={'creation': ['<', against_si_doc.creation]})
         set_previous_point(against_si_doc, remaining_points)
